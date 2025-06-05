@@ -2,14 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace IdentityDemo.Application.Users;
-public class UserService (IIdentityUserService identityUserService) : IUserService
+public class UserService(IIdentityUserService identityUserService) : IUserService
 {
-    public async Task<UserResultDto> CreateUserAsync(UserProfileDto user, string password) =>
-        await identityUserService.CreateUserAsync(user, password);
+    public async Task<UserResultDto> CreateUserAsync(UserProfileDto user, string password)
+    {
+        return await identityUserService.CreateUserAsync(user, password, [new Claim("Department", "IT"), new Claim("ShoeSize", "42")]);
+    }
 
     public async Task<UserResultDto> SignInAsync(string email, string password) =>
         await identityUserService.SignInAsync(email, password);

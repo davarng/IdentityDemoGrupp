@@ -5,6 +5,7 @@ using IdentityDemo.Application.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,17 +17,25 @@ public class IdentityUserService
     SignInManager<ApplicationUser> signInManager
     ) : IIdentityUserService
 {
-    public async Task<UserResultDto> CreateUserAsync(UserProfileDto user, string password)
+    public async Task<UserResultDto> CreateUserAsync(UserProfileDto user, string password, Claim[] claimArray)
     {
-        var result = await userManager.CreateAsync(new ApplicationUser
+        var applicationUser = new ApplicationUser
         {
             UserName = user.Email,
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-        }, password);
+        };
 
-        return new UserResultDto(result.Errors.FirstOrDefault()?.Description);
+        var result = await userManager.CreateAsync(applicationUser, password);
+
+        if (!result.Succeeded)
+            return new UserResultDto(result.Errors.FirstOrDefault()?.Description);
+
+
+        await userManager.AddClaimsAsync(applicationUser, claimArray);
+
+        return new UserResultDto(null);
     }
 
     public async Task<UserResultDto> SignInAsync(string email, string password)
