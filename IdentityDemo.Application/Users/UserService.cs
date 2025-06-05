@@ -11,7 +11,8 @@ public class UserService(IIdentityUserService identityUserService) : IUserServic
 {
     public async Task<UserResultDto> CreateUserAsync(UserProfileDto user, string password)
     {
-        return await identityUserService.CreateUserAsync(user, password, [new Claim("Department", "IT"), new Claim("ShoeSize", "42")]);
+        return await identityUserService.CreateUserAsync(user, password, [new Claim("Department", "IT"),
+            new Claim("ShoeSize", "42"), new Claim("First name", user.FirstName), new Claim("Last name", user.LastName)]);
     }
 
     public async Task<UserResultDto> SignInAsync(string email, string password) =>

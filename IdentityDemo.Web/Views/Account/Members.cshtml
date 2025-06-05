@@ -4,6 +4,10 @@
     <p>
         Welcome <strong>@User.Identity!.Name</strong>!
         <br/>
+        @User.Claims.FirstOrDefault(c => c.Type == "First name")
+        <br/>
+        @User.Claims.FirstOrDefault(c => c.Type == "Last name")
+        <br />
         @User.Claims.FirstOrDefault(c => c.Type == "Department")
         <br/>
         @User.Claims.FirstOrDefault(c => c.Type == "ShoeSize")
