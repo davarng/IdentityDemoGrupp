@@ -1,4 +1,5 @@
 ﻿using IdentityDemo.Application.Users;
+using IdentityDemo.Infrastructure;
 using IdentityDemo.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddControllersWithViews();
         builder.Services.AddTransient<IUserService, UserService>();
+        builder.Services.AddTransient<IIdentityUserService, IdentityUserService>();
 
         // Configure EF
         builder.Services.AddDbContext<ApplicationContext>(
