@@ -13,13 +13,12 @@ namespace IdentityDemo.Infrastructure;
 public class IdentityUserService
     (
     UserManager<ApplicationUser> userManager,
-    SignInManager<ApplicationUser> signInManager,
-    RoleManager<ApplicationUser> roleManager
+    SignInManager<ApplicationUser> signInManager
     ) : IIdentityUserService
 {
     public async Task<UserResultDto> CreateUserAsync(UserProfileDto user, string password)
     {
-        var result = await userManager.CreateAsync( new ApplicationUser
+        var result = await userManager.CreateAsync(new ApplicationUser
         {
             UserName = user.Email,
             Email = user.Email,
@@ -30,8 +29,9 @@ public class IdentityUserService
         return new UserResultDto(result.Errors.FirstOrDefault()?.Description);
     }
 
-    public Task<UserResultDto> SignInAsync(string email, string password)
+    public async Task<UserResultDto> SignInAsync(string email, string password)
     {
-        throw new NotImplementedException();
+        var result = await signInManager.PasswordSignInAsync(email, password, false, false);
+        return new UserResultDto(result.Succeeded ? null : "Invalid user credentials");
     }
 }
