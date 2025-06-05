@@ -42,8 +42,10 @@ public class AccountController(IUserService userService) : Controller
             return View();
         }
 
+        await userService.SignInAsync(viewModel.Email, viewModel.Password);
+
         // Redirect user
-        return RedirectToAction(nameof(Login));
+        return RedirectToAction(nameof(Members));
     }
 
     [HttpGet("login")]
@@ -64,6 +66,7 @@ public class AccountController(IUserService userService) : Controller
         {
             // Show error
             ModelState.AddModelError(string.Empty, result.ErrorMessage!);
+            
             return View();
         }
 
