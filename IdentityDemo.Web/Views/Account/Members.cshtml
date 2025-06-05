@@ -3,6 +3,10 @@
 {
     <p>
         Welcome <strong>@User.Identity!.Name</strong>!
+        <br/>
+        @User.Claims.FirstOrDefault(c => c.Type == "Department")
+        <br/>
+        @User.Claims.FirstOrDefault(c => c.Type == "ShoeSize")
     </p>
 }
 else
