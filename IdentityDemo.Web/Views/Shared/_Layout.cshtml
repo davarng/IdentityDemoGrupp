@@ -8,8 +8,18 @@
 <body style="padding: 1rem;">
     <nav>
         <a asp-controller="Account" asp-action="Members">Members</a>
-        <a asp-controller="Account" asp-action="Register">Register</a>
-        <a asp-controller="Account" asp-action="LogIn">Login</a>
+        
+        @if(User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Account" asp-action="LogOut">Logout</a>
+            <p>Logged in User: @User.Identity.Name</p>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="LogIn">Login</a>
+        }
+
     </nav>
     <br />
     <div>

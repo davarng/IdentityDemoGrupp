@@ -29,6 +29,7 @@ public class Program
         builder.Services.ConfigureApplicationCookie(options =>
         {
             options.LoginPath = "/login";
+            options.LogoutPath = "/logout";
         });
 
         var app = builder.Build();
